@@ -2,7 +2,7 @@ let id = null;
 var elem = document.getElementsByClassName("car");
 let Y = 0;
 let X = 0;
-let velocity = 5;
+let velocity = 1;
 let rotate = 0;
 let up = false,
   end = true,
@@ -58,10 +58,10 @@ function frame() {
       X += velocity * Math.sin((3.14 / 180) * rotate);
       Y += velocity * Math.cos((3.14 / 180) * rotate);
     }
-    if (right) {
+    if (right && (up || down)) {
       rotate--;
     }
-    if (left) {
+    if (left && (up || down)) {
       rotate++;
     }
   }

@@ -1,11 +1,14 @@
 body {
   overflow-y: hidden;
   overflow-x: hidden;
-  background-color: gainsboro;
+  background: url(./assets/map.png);
+  background-color: sandybrown;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .car {
   position: absolute;
-  height: 50px;
+  height: 30px;
   background-color: blueviolet;
-  width: 30px;
+  width: 10px;
 }
