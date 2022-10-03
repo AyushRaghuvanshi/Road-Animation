@@ -1,34 +1,11 @@
-.road_container {
-  position: relative;
-  height: auto;
-  width: auto;
-
-  perspective: 15px;
-  display: flex;
-  justify-content: center;
+body {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  background-color: gainsboro;
 }
-.road {
+.car {
   position: absolute;
-  background-color: grey;
-  transform: rotateX(90deg);
-  height: 50vh;
-  width: 300px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  align-items: center;
-  border-left: 20px solid black;
-  border-right: 20px solid black;
-}
-.stripes_group {
-  position: relative;
-}
-
-.stripes {
-  width: 10px;
-  background-color: yellow;
-  height: 10px;
-  position: relative;
-  margin-top: 5px;
+  height: 50px;
+  background-color: blueviolet;
+  width: 30px;
 }
