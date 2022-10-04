@@ -8,7 +8,7 @@ let up = false,
   end = true,
   right = false,
   left = false;
-elem[0].style.top = Y + "px";
+elem[0].style.transform = `translate(${X}px,${Y}px) rotateZ(${-rotate}deg)`;
 let down = false;
 id = setInterval(frame, 5);
 document.addEventListener("keydown", (event) => {
@@ -47,22 +47,31 @@ function frame() {
   if (!end) {
     clearInterval(id);
   } else {
-    console;
     elem[0].style.transform = `translate(${X}px,${Y}px) rotateZ(${-rotate}deg)`;
     if (up) {
-      console.log(X, Y);
-      X -= velocity * Math.sin((3.14 / 180) * rotate);
-      Y -= velocity * Math.cos((3.14 / 180) * rotate);
+      let vx = velocity * Math.sin((3.14 / 180) * rotate);
+      let vy = velocity * Math.cos((3.14 / 180) * rotate);
+      if (checkAllCollsion(X - vx, Y - vy, -rotate)) {
+        X -= vx;
+        Y -= vy;
+      }
     }
     if (down) {
-      X += velocity * Math.sin((3.14 / 180) * rotate);
-      Y += velocity * Math.cos((3.14 / 180) * rotate);
+      let vx = velocity * Math.sin((3.14 / 180) * rotate);
+      let vy = velocity * Math.cos((3.14 / 180) * rotate);
+      if (checkAllCollsion(X + vx, Y + vy, -rotate)) {
+        X += vx;
+        Y += vy;
+      }
     }
     if (right && (up || down)) {
       rotate--;
     }
     if (left && (up || down)) {
       rotate++;
+    }
+    if (rotate == 360 || rotate == -360) {
+      rotate = 0;
     }
   }
 }
