@@ -9,15 +9,13 @@ body {
 .walls {
   position: absolute;
 }
-.car_container {
-  width: auto;
-  height: auto;
-}
+
 .car {
   position: absolute;
   height: 30px;
-  background-color: blueviolet;
-  width: 10px;
+
+  background-image: url(./assets/car.png);
+  width: auto;
 }
 .wall1,
 .wall2,

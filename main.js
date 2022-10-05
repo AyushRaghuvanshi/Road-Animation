@@ -1,7 +1,7 @@
 let id = null;
 var elem = document.getElementsByClassName("car");
-let Y = 0;
-let X = 0;
+let Y = 595;
+let X = 1048;
 let velocity = 1;
 let rotate = 0;
 let up = false,
@@ -47,27 +47,42 @@ function frame() {
   if (!end) {
     clearInterval(id);
   } else {
+    let vx = velocity * Math.sin((3.14 / 180) * rotate);
+    let vy = velocity * Math.cos((3.14 / 180) * rotate);
+    let ifprop = checkCoinsCollsion(X, Y, -rotate);
+    if (checkAllCollsion(X, Y, -rotate) == false) {
+      window.location.assign("gameover.html");
+      clearInterval(id);
+    }
+    if (ifprop !== "3") {
+      const prop = document.getElementsByClassName(ifprop);
+      prop[0].remove();
+    }
     elem[0].style.transform = `translate(${X}px,${Y}px) rotateZ(${-rotate}deg)`;
     if (up) {
-      let vx = velocity * Math.sin((3.14 / 180) * rotate);
-      let vy = velocity * Math.cos((3.14 / 180) * rotate);
-      if (checkAllCollsion(X - vx, Y - vy, -rotate)) {
-        X -= vx;
-        Y -= vy;
-      }
+      X -= vx;
+      Y -= vy;
     }
     if (down) {
-      let vx = velocity * Math.sin((3.14 / 180) * rotate);
-      let vy = velocity * Math.cos((3.14 / 180) * rotate);
       if (checkAllCollsion(X + vx, Y + vy, -rotate)) {
         X += vx;
         Y += vy;
       }
     }
-    if (right && (up || down)) {
+    if (
+      right &&
+      (up || down) &&
+      checkAllCollsion(X + vx, Y + vy, -rotate) &&
+      checkAllCollsion(X - vx, Y - vy, -rotate)
+    ) {
       rotate--;
     }
-    if (left && (up || down)) {
+    if (
+      left &&
+      (up || down) &&
+      checkAllCollsion(X + vx, Y + vy, -rotate) &&
+      checkAllCollsion(X - vx, Y - vy, -rotate)
+    ) {
       rotate++;
     }
     if (rotate == 360 || rotate == -360) {

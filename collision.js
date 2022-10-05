@@ -1,4 +1,4 @@
-let walls = [
+const walls = [
   {
     height: 240,
     width: 16,
@@ -158,8 +158,53 @@ let walls = [
   },
 ];
 
+let coins = [
+  {
+    name: "1",
+    height: 20,
+    width: 20,
+    top: 450,
+    left: 115,
+  },
+  {
+    name: "2",
+    height: 20,
+    width: 20,
+    top: 300,
+    left: 1275,
+  },
+];
+const walls_group = document.getElementsByClassName("walls");
+
+for (let i = 0; i < walls.length; i++) {
+  const node = document.createElement("div");
+  console.log(walls[i].top + "px");
+  node.style.top = walls[i].top + "px";
+  node.style.height = walls[i].height + "px";
+  node.style.width = walls[i].width + "px";
+  node.style.left = walls[i].left + "px";
+  node.style.position = "absolute";
+  // node.style.backgroundColor = "black";
+
+  walls_group[0].appendChild(node);
+}
+const coins_group = document.getElementsByClassName("coins");
+
+for (let i = 0; i < coins.length; i++) {
+  const node = document.createElement("div");
+  node.classList.add(`${i + 1}`);
+  console.log(coins[i].top + "px");
+  node.style.top = coins[i].top + "px";
+  node.style.height = coins[i].height + "px";
+  node.style.width = coins[i].width + "px";
+  node.style.left = coins[i].left + "px";
+  node.style.position = "absolute";
+  node.style.backgroundColor = "black";
+
+  coins_group[0].appendChild(node);
+}
 const car_h = 30;
-const car_w = 10;
+const car_w = 13.75;
 const car_d = Math.sqrt(car_h * car_h + car_w * car_w);
 function getPixelsByAngle(x, y, width, height, angle) {
   var radians = (angle * Math.PI) / 180;
@@ -210,13 +255,108 @@ function getPixelsByAngle(x, y, width, height, angle) {
     ],
   ];
 }
-function checkAllCollsion(x,y,a){
-  for(let i=0;i<walls.length;i++){
-    if(checkColision(x,y,a,i)){
+
+function checkAllCollsion(x, y, a) {
+  for (let i = 0; i < walls.length; i++) {
+    if (checkColision(x, y, a, i)) {
       return false;
     }
   }
   return true;
+}
+function checkCoinsCollsion(x, y, a) {
+  for (let i = 0; i < coins.length; i++) {
+    let whichprop = checkCoinColision(x, y, a, i);
+    console.log(whichprop);
+    if (whichprop === "1") {
+      coins.shift();
+      return "1";
+    }
+    if (whichprop === "2") {
+      coins.pop();
+      return "2";
+    }
+  }
+  return "3";
+}
+function checkCoinColision(x, y, a, i) {
+  let car_c = getPixelsByAngle(x, y, car_w, car_h, a);
+  let coin_C = getPixelsByAngle(
+    coins[i].left,
+    coins[i].top,
+    coins[i].width,
+    coins[i].height,
+    0
+  );
+  let car_c2 = getPixelsByAngle(x, y, car_w, car_h, 0);
+  let coin_C2 = getPixelsByAngle(
+    coins[i].left,
+    coins[i].top,
+    coins[i].width,
+    coins[i].height,
+    a
+  );
+  let car_p_onX = [
+    Math.min(car_c[0][0], car_c[2][0], car_c[3][0], car_c[3][0]),
+    Math.max(car_c[0][0], car_c[2][0], car_c[3][0], car_c[3][0]),
+  ];
+  let car_p_onY = [
+    Math.min(car_c[0][1], car_c[2][1], car_c[3][1], car_c[3][1]),
+    Math.max(car_c[0][1], car_c[2][1], car_c[3][1], car_c[3][1]),
+  ];
+  let coin_p_onX = [
+    Math.min(coin_C[0][0], coin_C[2][0], coin_C[3][0], coin_C[3][0]),
+    Math.max(coin_C[0][0], coin_C[2][0], coin_C[3][0], coin_C[3][0]),
+  ];
+  let coin_p_onY = [
+    Math.min(coin_C[0][1], coin_C[2][1], coin_C[3][1], coin_C[3][1]),
+    Math.max(coin_C[0][1], coin_C[2][1], coin_C[3][1], coin_C[3][1]),
+  ];
+  let car_p_onX2 = [
+    Math.min(car_c2[0][0], car_c2[2][0], car_c2[3][0], car_c2[3][0]),
+    Math.max(car_c2[0][0], car_c2[2][0], car_c2[3][0], car_c2[3][0]),
+  ];
+  let car_p_onY2 = [
+    Math.min(car_c2[0][1], car_c2[2][1], car_c2[3][1], car_c2[3][1]),
+    Math.max(car_c2[0][1], car_c2[2][1], car_c2[3][1], car_c2[3][1]),
+  ];
+  let coin_p_onX2 = [
+    Math.min(coin_C2[0][0], coin_C2[2][0], coin_C2[3][0], coin_C2[3][0]),
+    Math.max(coin_C2[0][0], coin_C2[2][0], coin_C2[3][0], coin_C2[3][0]),
+  ];
+  let coin_p_onY2 = [
+    Math.min(coin_C2[0][1], coin_C2[2][1], coin_C2[3][1], coin_C2[3][1]),
+    Math.max(coin_C2[0][1], coin_C2[2][1], coin_C2[3][1], coin_C2[3][1]),
+  ];
+
+  if (car_p_onX[0] < coin_p_onX[0] && car_p_onX[1] < coin_p_onX[0]) {
+    return false;
+  }
+  if (car_p_onX[0] > coin_p_onX[1] && car_p_onX[1] > coin_p_onX[1]) {
+    return false;
+  }
+
+  if (car_p_onY[0] < coin_p_onY[0] && car_p_onY[1] < coin_p_onY[0]) {
+    return false;
+  }
+  if (car_p_onY[0] > coin_p_onY[1] && car_p_onY[1] > coin_p_onY[1]) {
+    return false;
+  }
+
+  if (car_p_onX2[0] < coin_p_onX2[0] && car_p_onX2[1] < coin_p_onX2[0]) {
+    return false;
+  }
+  if (car_p_onX2[0] > coin_p_onX2[1] && car_p_onX2[1] > coin_p_onX2[1]) {
+    return false;
+  }
+
+  if (car_p_onY2[0] < coin_p_onY2[0] && car_p_onY2[1] < coin_p_onY2[0]) {
+    return false;
+  }
+  if (car_p_onY2[0] > coin_p_onY2[1] && car_p_onY2[1] > coin_p_onY2[1]) {
+    return false;
+  }
+  return coins[i].name;
 }
 
 function checkColision(x, y, a, i) {
