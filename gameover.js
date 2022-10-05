@@ -1,5 +1,7 @@
 let body = document.getElementsByTagName("body");
 let fadein;
+let wasted_audio = new Audio("./assets/wasted.mp3");
+wasted_audio.play();
 let fadeout, fadein2;
 let opa = 0;
 setTimeout(() => {

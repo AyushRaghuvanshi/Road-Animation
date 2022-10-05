@@ -2,6 +2,9 @@ let id = null;
 var elem = document.getElementsByClassName("car");
 let Y = 580;
 let X = 1048;
+var drive = new Audio("./assets/drive.mp3");
+var cash = new Audio("./assets/cash.mp3");
+drive.loop = true;
 let velocity = 1;
 let rotate = 0;
 let up = false,
@@ -19,10 +22,16 @@ document.addEventListener("keydown", (event) => {
     right = true;
   }
   if (event.key === "ArrowUp") {
+    drive.play();
     up = true;
   }
   if (event.key === "ArrowDown") {
+    drive.play();
     down = true;
+  }
+  if (event.key === "q") {
+    coins_collected = 1;
+    coinCollected();
   }
 });
 
@@ -36,9 +45,11 @@ document.addEventListener("keyup", (event) => {
     right = false;
   }
   if (event.key === "ArrowUp") {
+    drive.pause();
     up = false;
   }
   if (event.key === "ArrowDown") {
+    drive.pause();
     down = false;
   }
 });
@@ -56,11 +67,12 @@ function frame() {
     }
     if (ifprop !== "3") {
       const prop = document.getElementsByClassName(ifprop);
-      
-      if(ifprop === 'end'){
+
+      if (ifprop === "end") {
         gameend();
       }
       prop[0].remove();
+      cash.play();
       coinCollected();
     }
     elem[0].style.transform = `translate(${X}px,${Y}px) rotateZ(${-rotate}deg)`;
