@@ -1,6 +1,6 @@
 let id = null;
 var elem = document.getElementsByClassName("car");
-let Y = 595;
+let Y = 580;
 let X = 1048;
 let velocity = 1;
 let rotate = 0;
@@ -56,7 +56,12 @@ function frame() {
     }
     if (ifprop !== "3") {
       const prop = document.getElementsByClassName(ifprop);
+      
+      if(ifprop === 'end'){
+        gameend();
+      }
       prop[0].remove();
+      coinCollected();
     }
     elem[0].style.transform = `translate(${X}px,${Y}px) rotateZ(${-rotate}deg)`;
     if (up) {

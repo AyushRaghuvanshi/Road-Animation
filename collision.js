@@ -178,8 +178,8 @@ const walls_group = document.getElementsByClassName("walls");
 
 for (let i = 0; i < walls.length; i++) {
   const node = document.createElement("div");
-  console.log(walls[i].top + "px");
-  node.style.top = walls[i].top + "px";
+  console.log(walls[i].top - 10 + "px");
+  node.style.top = walls[i].top - 10 + "px";
   node.style.height = walls[i].height + "px";
   node.style.width = walls[i].width + "px";
   node.style.left = walls[i].left + "px";
@@ -191,7 +191,7 @@ for (let i = 0; i < walls.length; i++) {
 const coins_group = document.getElementsByClassName("coins");
 
 for (let i = 0; i < coins.length; i++) {
-  const node = document.createElement("div");
+  const node = document.createElement("img");
   node.classList.add(`${i + 1}`);
   console.log(coins[i].top + "px");
   node.style.top = coins[i].top + "px";
@@ -199,7 +199,7 @@ for (let i = 0; i < coins.length; i++) {
   node.style.width = coins[i].width + "px";
   node.style.left = coins[i].left + "px";
   node.style.position = "absolute";
-  node.style.backgroundColor = "black";
+  node.src = "./assets/cash.png";
 
   coins_group[0].appendChild(node);
 }
@@ -268,6 +268,10 @@ function checkCoinsCollsion(x, y, a) {
   for (let i = 0; i < coins.length; i++) {
     let whichprop = checkCoinColision(x, y, a, i);
     console.log(whichprop);
+    if (whichprop === "end") {
+      coins.shift();
+      return "end";
+    }
     if (whichprop === "1") {
       coins.shift();
       return "1";
@@ -363,7 +367,7 @@ function checkColision(x, y, a, i) {
   let car_c = getPixelsByAngle(x, y, car_w, car_h, a);
   let wall_C = getPixelsByAngle(
     walls[i].left,
-    walls[i].top,
+    walls[i].top - 10,
     walls[i].width,
     walls[i].height,
     0
@@ -371,7 +375,7 @@ function checkColision(x, y, a, i) {
   let car_c2 = getPixelsByAngle(x, y, car_w, car_h, 0);
   let wall_C2 = getPixelsByAngle(
     walls[i].left,
-    walls[i].top,
+    walls[i].top - 10,
     walls[i].width,
     walls[i].height,
     a
